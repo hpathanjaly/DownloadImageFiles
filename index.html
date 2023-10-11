@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>replit</title>
+  <link href="style.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+  <input type="file" name="file" id="file">
+  <button id='upload'>Upload</button>
+  <h1 id='data'></h1>
+  <!--   <script src="script.js"></script> -->
+  <script>
+    const upload = document.getElementById('upload')
+    const data = document.getElementById('data')
+    upload.addEventListener('click', async (event) => {
+      let links = []
+      const [file] = document.querySelector("input[type=file]").files;
+      const reader = new FileReader();
+      const timer = ms => new Promise(res => setTimeout(res, ms))
+      
+      await reader.addEventListener("load", async () => {
+        // this will then display a text file
+        let text = reader.result
+        text = text.replace(/(\r\n|\n|\r)/gm, ",");
+        links.push(text)
+        links = links[0].split(',')
+        console.log(links)
+        for(let i=0; i < links.length; i++){
+          window.open(""+links[i]+"", "_blank")
+          data.innerHTML = i + ": " + links[i]
+          await timer(1000)
+        }
+        data.innerHTML = "Done"
+        // links.forEach(async link => {
+        //   window.open(""+link+"", "_blank")
+        //   await timer(3000)
+        // })
+      });
+      console.log('hello')
+
+      if (file) {
+        reader.readAsText(file);
+      }
+    })
+  </script>
+</body>
+
+</html>
